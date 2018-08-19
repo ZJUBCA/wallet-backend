@@ -1,4 +1,4 @@
-// sharing defines the data structure of learning materials and documents
+// sharing defines the data structure of information, learning materials and documents
 module.exports = app => {
   const {STRING, INTEGER, DATE, TEXT} = app.Sequelize;
 
