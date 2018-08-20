@@ -6,7 +6,8 @@
   "dependencies": {
     "egg": "^2.2.1",
     "egg-scripts": "^2.5.0",
-    "egg-sequelize": "^4.0.4"
+    "egg-sequelize": "^4.0.4",
+    "mysql2": "^1.6.1"
   },
   "devDependencies": {
     "autod": "^3.0.1",
@@ -16,6 +17,7 @@
     "egg-mock": "^3.14.0",
     "eslint": "^4.11.0",
     "eslint-config-egg": "^6.0.0",
+    "sequelize-cli": "^4.1.0",
     "webstorm-disable-index": "^1.2.0"
   },
   "engines": {

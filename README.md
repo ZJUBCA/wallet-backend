@@ -23,6 +23,12 @@ $ npm start
 $ npm stop
 ```
 
+#### Database Migration
+
+```bash
+$ npx sequelize db:migrate
+```
+
 ### npm scripts
 
 - Use `npm run lint` to check code style.
@@ -31,3 +37,4 @@ $ npm stop
 
 
 [egg]: https://eggjs.org
+
