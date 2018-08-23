@@ -11,12 +11,5 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = [];
 
-  config.sequelize = {
-    dialect: 'mysql',
-    hostname: '127.0.0.1',
-    port: 3306,
-    database: 'wallet'
-  }
-
   return config;
 };
