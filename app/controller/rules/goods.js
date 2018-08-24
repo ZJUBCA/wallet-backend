@@ -16,3 +16,8 @@ exports.GOODS_ADD_RULE = {
   token: {type: 'string'},
   deadline: {type: 'dateTime'}
 };
+
+exports.GOODS_UPDATE_RULE = {
+  id: {type: 'id'},
+  update: {type: 'json'}
+};

@@ -18,10 +18,9 @@ class GoodsService extends Service {
     })
   }
 
-  async add(pic, type, name, provider, intro, value, token, deadline) {
+  async add(pic, name, provider, intro, value, token, deadline) {
     return await this.ctx.model.Item.create({
       pic,
-      type,
       name,
       provider,
       intro,
