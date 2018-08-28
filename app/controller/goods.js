@@ -2,11 +2,16 @@
 
 const Controller = require('egg').Controller;
 const rules = require('./rules');
+const {decodeRuleErr} = require('../utils');
 
 class GoodsController extends Controller {
   async get() {
     const {ctx, service} = this;
-    ctx.validate(rules.GOODS_GET_RULE, ctx.query);
+    try {
+      ctx.validate(rules.GOODS_GET_RULE, ctx.query);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
 
     const item = service.goods.get(ctx.query.id);
     if (!item) {
@@ -14,7 +19,7 @@ class GoodsController extends Controller {
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           item
         }
       }
@@ -23,13 +28,18 @@ class GoodsController extends Controller {
 
   async fetch() {
     const {ctx, service} = this;
-    ctx.validate(rules.GOODS_FETCH_RULE, ctx.query);
-    const {page, pageSize} = ctx.query;
+    const [page, pageSize] = [parseInt(ctx.query.page), parseInt(ctx.query.pageSize)];
 
-    const items = service.goods.fetch(page, pageSize);
+    try {
+      ctx.validate(rules.GOODS_FETCH_RULE, {page, pageSize});
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
+
+    const items = service.goods.getAll(page, pageSize);
     ctx.body = {
       code: 0,
-      res: {
+      data: {
         items
       }
     }
@@ -38,17 +48,19 @@ class GoodsController extends Controller {
   async add() {
     const {ctx, service} = this;
     const body = ctx.request.body;
-    ctx.validate(rules.GOODS_ADD_RULE, body);
+    try {
+      ctx.validate(rules.GOODS_ADD_RULE, body);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
 
     const item = service.goods.add(body.pic, body.name, body.provider, body.intro, body.value, body.token, body.deadline)
     if (!item) {
-      ctx.body = {
-        code: 1
-      }
+      throw new Error('add item failed')
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           item
         }
       }
@@ -58,17 +70,19 @@ class GoodsController extends Controller {
   async update() {
     const {ctx, service} = this;
     const body = ctx.request.body;
-    ctx.validate(rules.GOODS_UPDATE_RULE, body);
+    try {
+      ctx.validate(rules.GOODS_UPDATE_RULE, body);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
 
     const item = service.goods.update(body.id, body.update);
     if (!item) {
-      ctx.body = {
-        code: 1
-      }
+      throw new Error('update failed')
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           item
         }
       }
@@ -77,13 +91,14 @@ class GoodsController extends Controller {
 
   async delete() {
     const {ctx, service} = this;
-    ctx.validate(rules.GOODS_DELETE_RULE, ctx.params);
-
+    try {
+      ctx.validate(rules.GOODS_DELETE_RULE, ctx.params);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
     const item = service.goods.delete(ctx.params.id);
     if (!item) {
-      ctx.body = {
-        code: 1
-      }
+      throw new Error('delete failed')
     } else {
       ctx.body = {
         code: 0
@@ -91,3 +106,5 @@ class GoodsController extends Controller {
     }
   }
 }
+
+module.exports = GoodsController

@@ -11,5 +11,17 @@ module.exports = appInfo => {
   // add your config here
   config.middleware = [];
 
+  // error handler
+  config.onerror = {
+    json(err, ctx) {
+      ctx.logger.error(err.errors);
+      // json handler
+      ctx.body = {
+        code: 1,
+        msg: err.errors
+      };
+    }
+  };
+
   return config;
 };

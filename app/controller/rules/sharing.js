@@ -3,8 +3,8 @@ exports.SHARING_GET_RULE = {
 };
 
 exports.SHARING_FETCH_RULE = {
-  page: {type: 'integer'},
-  pageSize: {type: 'integer'}
+  page: {type: 'int'},
+  pageSize: {type: 'int'}
 };
 
 exports.SHARING_ADD_RULE = {
@@ -15,8 +15,7 @@ exports.SHARING_ADD_RULE = {
 };
 
 exports.SHARING_UPDATE_RULE = {
-  id: {type: 'id'},
-  update: {type: 'json'}
+  update: {type: 'object'}
 };
 
 exports.SHARING_DELETE_RULE = {

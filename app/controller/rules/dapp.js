@@ -14,12 +14,11 @@ exports.DAPP_ADD_RULE = {
   url: {type: 'url'},
   author: {type: 'string'},
   intro: {type: 'string'},
-  content: {type: 'content'}
+  content: {type: 'string'}
 };
 
 exports.DAPP_UPDATE_RULE = {
-  id: {type: 'id'},
-  update: {type: 'json'}
+  update: {type: 'object'}
 };
 
 exports.DAPP_DELETE_RULE = {

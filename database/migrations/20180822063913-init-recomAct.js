@@ -13,7 +13,7 @@ module.exports = {
 
     await queryInterface.createTable('recom_activites', {
       id: {type: INTEGER, primaryKey: true, autoIncrement: true},
-      sid: INTEGER
+      sid: {type: INTEGER, allowNull: false}
     });
   },
 

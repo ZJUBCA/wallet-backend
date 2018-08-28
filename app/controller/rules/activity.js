@@ -16,11 +16,9 @@ exports.ACTV_ADD_RULE = {
 };
 
 exports.ACTV_UPDATE_RULE = {
-  id: {type: 'id'},
-  update: {type: 'json'}
+  update: {type: 'object'}
 };
 
 exports.ACTV_DELETE_RULE = {
   id: {type: 'id'},
-  update: {type: 'json'}
 };

@@ -40,7 +40,7 @@ class DappService extends Service {
   }
 
   async delete(id) {
-    const dapp = this.get(id);
+    const dapp = await this.get(id);
     if (!dapp) {
       return null
     }

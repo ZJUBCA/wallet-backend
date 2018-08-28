@@ -4,7 +4,7 @@ module.exports = app => {
 
   const RecomAct = app.model.define('recomAct', {
     id: {type: INTEGER, primaryKey: true, autoIncrement: true},
-    sid: INTEGER
+    sid: {type: INTEGER, allowNull: false}
   });
 
   return RecomAct;

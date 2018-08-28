@@ -4,15 +4,13 @@ module.exports = app => {
 
   const Dapp = app.model.define('dapp', {
     id: {type: INTEGER, primaryKey: true, autoIncrement: true},
-    icon: STRING,      // icon of dapp
-    type: STRING(20),   // category of dapp
-    name: STRING(30),   // name of dapp
-    url: STRING,         // url of dapp
-    author: STRING(30),   // author of dapp
-    intro: STRING(100),   // abstract intro of dapp
+    icon: {type: STRING, allowNull: false},      // icon of dapp
+    type: {type: STRING(20), allowNull: false},   // category of dapp
+    name: {type: STRING(30), allowNull: false},   // name of dapp
+    url: {type: STRING, allowNull: false},        // url of dapp
+    author: {type: STRING(30), allowNull: false},   // author of dapp
+    intro: {type: STRING(100), allowNull: false},   // abstract intro of dapp
     content: TEXT,    // detail intro of dapp
-    createdAt: DATE,
-    updatedAt: DATE,
   });
 
   return Dapp;

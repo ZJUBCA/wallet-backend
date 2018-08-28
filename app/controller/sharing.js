@@ -2,19 +2,23 @@
 
 const Controller = require('egg').Controller;
 const rules = require('./rules');
+const {decodeRuleErr} = require('../utils');
 
 class SharingController extends Controller {
   async get() {
     const {ctx, service} = this;
-    ctx.validate(rules.SHARING_GET_RULE, ctx.query);
-
-    const post = await service.sharing.get(ctx.query.id);
+    try {
+      ctx.validate(rules.SHARING_GET_RULE, ctx.params);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
+    const post = await service.sharing.get(ctx.params.id);
     if (!post) {
       ctx.status = 404
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           post
         }
       }
@@ -23,32 +27,42 @@ class SharingController extends Controller {
 
   async fetch() {
     const {ctx, service} = this;
-    ctx.validate(rules.SHARING_FETCH_RULE, ctx.query);
-    const {page, pageSize} = ctx.query;
+    const [page, pageSize] = [parseInt(ctx.query.page), parseInt(ctx.query.pageSize)];
 
-    const posts = await service.sharing.fetch(page, pageSize);
+    try {
+      ctx.validate(rules.SHARING_FETCH_RULE, {page, pageSize});
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
+    if (page < 1) {
+      throw new Error('page should not be smaller than 1')
+    }
+    const posts = await service.sharing.getAll(page, pageSize);
     ctx.body = {
       code: 0,
-      res: {
+      data: {
         posts
       }
     }
+
   }
 
   async add() {
     const {ctx, service} = this;
-    const body = ctx.request.body
-    ctx.validate(rules.SHARING_ADD_RULE, body);
-
+    const body = ctx.request.body;
+    try {
+      ctx.validate(rules.SHARING_ADD_RULE, body);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
+    console.log("post")
     const post = await service.sharing.add(body.pic, body.author, body.title, body.content)
     if (!post) {
-      ctx.body = {
-        code: 1
-      }
+      throw new Error('add post failed')
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           post
         }
       }
@@ -57,18 +71,23 @@ class SharingController extends Controller {
 
   async update() {
     const {ctx, service} = this;
-    const body = ctx.request.body
-    ctx.validate(rules.SHARING_UPDATE_RULE, body);
-
-    const post = await service.sharing.update(body.id, body.update);
+    const body = ctx.request.body;
+    try {
+      ctx.validate(rules.SHARING_UPDATE_RULE, body);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
+    const id = parseInt(ctx.params.id);
+    if (isNaN(id)) {
+      throw new Error('id should be integer')
+    }
+    const post = await service.sharing.update(id, body.update);
     if (!post) {
-      ctx.body = {
-        code: 1
-      }
+      throw new Error('update failed')
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           post
         }
       }
@@ -77,14 +96,15 @@ class SharingController extends Controller {
 
   async delete() {
     const {ctx, service} = this;
-    const body = ctx.request.body
-    ctx.validate(rules.SHARING_DELETE_RULE, body)
+    try {
+      ctx.validate(rules.SHARING_DELETE_RULE, ctx.params);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
 
-    const post = await service.sharing.delete(body.id)
+    const post = await service.sharing.delete(ctx.params.id);
     if (!post) {
-      ctx.body = {
-        code: 1
-      }
+      throw new Error('delete failed')
     } else {
       ctx.body = {
         code: 0

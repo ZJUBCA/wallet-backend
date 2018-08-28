@@ -18,6 +18,5 @@ exports.GOODS_ADD_RULE = {
 };
 
 exports.GOODS_UPDATE_RULE = {
-  id: {type: 'id'},
-  update: {type: 'json'}
+  update: {type: 'object'}
 };

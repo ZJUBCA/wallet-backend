@@ -13,13 +13,13 @@ module.exports = {
 
     await queryInterface.createTable('activities', {
       id: {type: INTEGER, primaryKey: true, autoIncrement: true},
-      pic: STRING,        // poster picture
-      title: STRING(100), // title
-      sponsor: STRING(30),  // sponsor of the activity
-      abstract: STRING,   // abstract of the activity
-      url: STRING,      // url to signup entrance
-      createdAt: DATE,
-      updatedAt: DATE,
+      pic: STRING,                                      // poster picture
+      title: {type: STRING(100), allowNull: false},     // title
+      sponsor: {type: STRING(30), allowNull: false},    // sponsor of the activity
+      abstract: STRING,                                 // abstract of the activity
+      url: {type: STRING, allowNull: false},            // url to signup entrance
+      created_at: {type: DATE, allowNull: false},
+      updated_at: {type: DATE, allowNull: false}
     });
   },
 

@@ -54,7 +54,7 @@ class ActivityService extends Service {
 
     // get activities from cache
     ids.forEach(id => {
-      let actv = this.app.actvCache.get(id)
+      let actv = this.app.actvCache.get(id);
       if (actv) {
         activities.push(actv)
       } else {

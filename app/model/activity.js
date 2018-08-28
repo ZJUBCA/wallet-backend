@@ -5,12 +5,12 @@ module.exports = app => {
   const Activity = app.model.define('activity', {
     id: {type: INTEGER, primaryKey: true, autoIncrement: true},
     pic: STRING,        // poster picture
-    title: STRING(100), // title
-    sponsor: STRING(30),  // sponsor of the activity
+    title: {type: STRING(100), allowNull: false},// title
+    sponsor: {type: STRING(30), allowNull: false}, // sponsor of the activity
     abstract: STRING,   // abstract of the activity
-    url: STRING,      // url to signup entrance
-    createdAt: DATE,
-    updatedAt: DATE,
+    url: {type: STRING, allowNull: false},     // url to signup entrance
+    createdAt: {type: DATE, allowNull: false},
+    updatedAt: {type: DATE, allowNull: false}
   });
 
   return Activity;

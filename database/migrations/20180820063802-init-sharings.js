@@ -14,11 +14,11 @@ module.exports = {
     await queryInterface.createTable('sharings', {
       id: {type: INTEGER, primaryKey: true, autoIncrement: true},
       pic: STRING,
-      author: STRING(30),
-      title: STRING(100),
-      content: TEXT,
-      createdAt: DATE,
-      updatedAt: DATE,
+      author: {type: STRING(30), allowNull: false},
+      title: {type: STRING(100), allowNull: false},
+      content: {type: TEXT, allowNull: false},
+      created_at: {type: DATE, allowNull: false},
+      updated_at: {type: DATE, allowNull: false}
     });
 
   },

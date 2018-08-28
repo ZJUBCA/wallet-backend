@@ -2,19 +2,24 @@
 
 const Controller = require('egg').Controller;
 const rules = require('./rules');
+const {decodeRuleErr} = require('../utils');
 
 class DappController extends Controller {
   async get() {
     const {ctx, service} = this;
-    ctx.validate(rules.DAPP_GET_RULES, ctx.query);
+    try {
+      ctx.validate(rules.DAPP_GET_RULE, ctx.params);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
 
-    const dapp = await service.get(ctx.query.id);
+    const dapp = await service.dappStore.get(ctx.params.id);
     if (!dapp) {
       ctx.status = 404;
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           dapp
         }
       }
@@ -23,13 +28,18 @@ class DappController extends Controller {
 
   async fetch() {
     const {ctx, service} = this;
-    ctx.validate(rules.DAPP_FETCH_RULE, ctx.query);
-    const {page, pageSize} = ctx.query;
+    const [page, pageSize] = [parseInt(ctx.query.page), parseInt(ctx.query.pageSize)];
 
-    const dapps = await service.fetch(page, pageSize);
+    try {
+      ctx.validate(rules.DAPP_FETCH_RULE, {page, pageSize});
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
+
+    const dapps = await service.dappStore.getAll(page, pageSize);
     ctx.body = {
       code: 0,
-      res: {
+      data: {
         dapps
       }
     }
@@ -37,18 +47,20 @@ class DappController extends Controller {
 
   async add() {
     const {ctx, service} = this;
-    const body = ctx.body;
-    ctx.validate(rules.DAPP_ADD_RULE, body);
+    const body = ctx.request.body;
+    try {
+      ctx.validate(rules.DAPP_ADD_RULE, body);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
 
-    const dapp = await service.add(body.icon, body.type, body.name, body.url, body.author, body.intro, body.content);
+    const dapp = await service.dappStore.add(body.icon, body.type, body.name, body.url, body.author, body.intro, body.content);
     if (!dapp) {
-      ctx.body = {
-        code: 1
-      }
+      throw new Error('add dapp failed')
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           dapp
         }
       }
@@ -57,18 +69,24 @@ class DappController extends Controller {
 
   async update() {
     const {ctx, service} = this;
-    const body = ctx.body;
-    ctx.validate(rules.DAPP_UPDATE_RULE, body);
+    const body = ctx.request.body;
+    try {
+      ctx.validate(rules.DAPP_UPDATE_RULE, body);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
+    const id = parseInt(ctx.params.id);
+    if (isNaN(id)) {
+      throw new Error('id should be integer')
+    }
 
-    const dapp = await service.update(body.id, body.update);
+    const dapp = await service.dappStore.update(id, body.update);
     if (!dapp) {
-      ctx.body = {
-        code: 1
-      }
+      throw new Error('update failed')
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           dapp
         }
       }
@@ -77,20 +95,24 @@ class DappController extends Controller {
 
   async delete() {
     const {ctx, service} = this;
-    ctx.validate(rules.DAPP_DELETE_RULE, ctx.params);
+    try {
+      ctx.validate(rules.DAPP_DELETE_RULE, ctx.params);
+    } catch (e) {
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+    }
 
-    const dapp = await service.delete(ctx.params.id)
+    const dapp = await service.dappStore.delete(ctx.params.id);
     if (!dapp) {
-      ctx.body = {
-        code: 1
-      }
+      throw new Error('delete failed')
     } else {
       ctx.body = {
         code: 0,
-        res: {
+        data: {
           dapp
         }
       }
     }
   }
 }
+
+module.exports = DappController;
