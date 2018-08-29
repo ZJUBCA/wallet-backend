@@ -55,7 +55,6 @@ class SharingController extends Controller {
     } catch (e) {
       throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
     }
-    console.log("post")
     const post = await service.sharing.add(body.pic, body.author, body.title, body.content)
     if (!post) {
       throw new Error('add post failed')

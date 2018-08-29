@@ -14,11 +14,12 @@ module.exports = appInfo => {
   // error handler
   config.onerror = {
     json(err, ctx) {
+      ctx.status = 200;
       ctx.logger.error(err.errors);
       // json handler
       ctx.body = {
         code: 1,
-        msg: err.errors
+        msg: err.message
       };
     }
   };

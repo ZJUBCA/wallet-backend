@@ -20,3 +20,7 @@ exports.GOODS_ADD_RULE = {
 exports.GOODS_UPDATE_RULE = {
   update: {type: 'object'}
 };
+
+exports.GOODS_DELETE_RULE = {
+  id: {type: 'id'}
+};

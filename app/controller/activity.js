@@ -8,9 +8,9 @@ class ActivityController extends Controller {
   async get() {
     const {ctx, service} = this;
     try {
-      ctx.validate(rules.ACTV_GET_RULES, ctx.params);
+      ctx.validate(rules.ACTV_GET_RULE, ctx.params);
     } catch (e) {
-      throw new Error(decodeRuleErr(e.errors.field, e.errors.message))
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message))
     }
 
     const actv = await service.activity.get(ctx.params.id);
@@ -33,14 +33,14 @@ class ActivityController extends Controller {
     try {
       ctx.validate(rules.ACTV_FETCH_RULE, {page, pageSize});
     } catch (e) {
-      throw new Error(decodeRuleErr(e.errors.field, e.errors.message))
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message))
     }
 
-    const activities = await service.activity.getAll(page, pageSize);
+    const actvs = await service.activity.getAll(page, pageSize);
     ctx.body = {
       code: 0,
       data: {
-        activities
+        actvs
       }
     }
   }
@@ -51,10 +51,10 @@ class ActivityController extends Controller {
     try {
       ctx.validate(rules.ACTV_ADD_RULE, body);
     } catch (e) {
-      throw new Error(decodeRuleErr(e.errors.field, e.errors.message))
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message))
     }
 
-    const actv = await service.activity.add(body.icon, body.type, body.name, body.url, body.author, body.intro, body.content);
+    const actv = await service.activity.add(body.pic, body.title, body.sponsor, body.abstract, body.url);
     if (!actv) {
       throw new Error('add activity failed')
     } else {
@@ -73,10 +73,15 @@ class ActivityController extends Controller {
     try {
       ctx.validate(rules.ACTV_UPDATE_RULE, body);
     } catch (e) {
-      throw new Error(decodeRuleErr(e.errors.field, e.errors.message))
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message))
     }
 
-    const actv = await service.activity.update(body.id, body.update);
+    const id = parseInt(ctx.params.id);
+    if (isNaN(id)) {
+      throw new Error('id should be integer');
+    }
+
+    const actv = await service.activity.update(id, body.update);
     if (!actv) {
       throw new Error('update failed')
     } else {
@@ -94,7 +99,7 @@ class ActivityController extends Controller {
     try {
       ctx.validate(rules.ACTV_DELETE_RULE, ctx.params);
     } catch (e) {
-      throw new Error(decodeRuleErr(e.errors.field, e.errors.message))
+      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message))
     }
 
     const actv = await service.activity.delete(ctx.params.id);

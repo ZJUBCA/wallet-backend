@@ -13,7 +13,7 @@ class ActivityService extends Service {
   }
 
   async add(pic, title, sponsor, abstract, url) {
-    const activity = await this.ctx.model.create({
+    const activity = await this.ctx.model.Activity.create({
       pic,
       title,
       sponsor,

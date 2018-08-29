@@ -44,8 +44,8 @@ module.exports = app => {
   router.get('/activity/:id', controller.activity.get);
   router.get('/activities', controller.activity.fetch);
   router.post('/activity', controller.activity.add);
-  router.put('/activity', controller.activity.update);
-  router.delete('/activity', controller.activity.delete);
+  router.put('/activity/:id', controller.activity.update);
+  router.delete('/activity/:id', controller.activity.delete);
 
   // DappStore route
   router.get('/dapp/:id', controller.dappStore.get);
@@ -53,4 +53,11 @@ module.exports = app => {
   router.post('/dapp', controller.dappStore.add);
   router.put('/dapp/:id', controller.dappStore.update);
   router.delete('/dapp/:id', controller.dappStore.delete);
+
+  // Goods route
+  router.get('/item/:id', controller.goods.get);
+  router.get('/goods', controller.goods.fetch);
+  router.post('/item', controller.goods.add);
+  router.put('/item/:id', controller.goods.update);
+  router.delete('/item/:id', controller.goods.delete);
 };

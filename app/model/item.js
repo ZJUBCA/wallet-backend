@@ -10,9 +10,7 @@ module.exports = app => {
     intro: {type: TEXT, allowNull: false},
     value: {type: DECIMAL(20, 4), allowNull: false},      // value of item, maximum amount limit is the same as eos.token, namely 2^62-1
     token: {type: STRING(20), allowNull: false},          // token name, the price of item is "{value} {token}",like "100.0000 EOS"
-    deadline: {type: DATE, allowNull: false},             // ddl for item invalid
-    createdAt: {type: DATE, allowNull: false},
-    updatedAt: {type: DATE, allowNull: false}
+    deadline: {type: DATE, allowNull: false}             // ddl for item invalid
   });
 
   return Item;

@@ -37,7 +37,7 @@ describe('test/app/controller/dappStore.test.js', () => {
       assert(res.body.code === 0);
       const dapp = res.body.data.dapp;
       for (let key in TEST_DAPP) {
-        TEST_DAPP[key] = dapp[key]
+        assert(TEST_DAPP[key] === dapp[key])
       }
     });
 

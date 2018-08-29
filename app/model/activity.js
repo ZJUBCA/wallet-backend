@@ -9,8 +9,6 @@ module.exports = app => {
     sponsor: {type: STRING(30), allowNull: false}, // sponsor of the activity
     abstract: STRING,   // abstract of the activity
     url: {type: STRING, allowNull: false},     // url to signup entrance
-    createdAt: {type: DATE, allowNull: false},
-    updatedAt: {type: DATE, allowNull: false}
   });
 
   return Activity;
