@@ -1,12 +1,26 @@
-const Service = require('egg').Service
+const Service = require('egg').Service;
 
 class DappService extends Service {
   async get(id) {
     return await this.ctx.model.Dapp.findById(id)
   }
 
-  async getAll(page, pageSize) {
-    return await this.ctx.model.Dapp.findAll({offset: (page - 1) * pageSize, limit: pageSize})
+  async getAll(page, pageSize, type = '', keywords = '') {
+    const {Op} = this.app.Sequelize;
+    const where = {}
+    where.title = {
+      [Op.like]: `%${keywords}%`
+    };
+    if (type !== '') {
+      where.type = type
+    }
+    return await this.ctx.model.Dapp.findAll(
+      {
+        where,
+        offset: (page - 1) * pageSize,
+        limit: pageSize
+      }
+    )
   }
 
   async getAllByWhere(where, page, pageSize) {

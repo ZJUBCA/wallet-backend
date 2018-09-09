@@ -14,4 +14,4 @@ module.exports = app => {
   });
 
   return Dapp;
-}
+};
