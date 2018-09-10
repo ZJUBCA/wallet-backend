@@ -39,6 +39,7 @@ $ npx sequelize db:migrate
 - 0 成功
 - 非0 失败，需提供额外的`msg`字段以显示错误信息。
 ### 资产管理
+TODO...
 
 ### Dapp市场
 **1. GET `/dapps` 获取Dapp列表**
@@ -106,8 +107,8 @@ body参数：
 响应：
 - code
 
-#### 发现
-##### 精选文章
+### 发现
+#### 精选文章
 **1. GET `/sharings` 获取精选文章列表**
 
 query参数：
@@ -158,7 +159,7 @@ body参数：
 响应：
 - code
 
-##### 活动
+#### 活动
 **1. GET `/recommands` 获取轮播图活动列表**
 
 **2. GET `/activities` 获取活动列表**
@@ -206,7 +207,7 @@ body参数：
 响应：
 - code
 
-##### Token兑换商城
+#### Token兑换商城
 **1. GET `/goods` 获取商品列表**
 
 query参数：
