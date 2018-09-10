@@ -221,10 +221,6 @@ query参数：
     
 **2. GET `/good/:id` 获取商品详情**
 
-query参数：
-- page
-- pageSize
-
 响应：
 - code
 - data
