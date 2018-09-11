@@ -3,8 +3,8 @@ const RECOM_PREFIX = '_RECOM'
 
 class ActivityService extends Service {
   async get(id) {
-    const activity = this.app.actvCache.get(id)
-    if (activity) return activity
+    const activity = this.app.actvCache.get(id);
+    if (activity) return activity;
     return await this.ctx.model.Activity.findById(id);
   }
 
@@ -74,18 +74,25 @@ class ActivityService extends Service {
     return activities.concat(remainActvs)
   }
 
-  async addRecom(sid) {
-    const recom = await this.ctx.model.Activity.create({
-      sid
-    })
+  async addRecom(sid, order) {
+    const recom = await this.ctx.model.RecomAct.findOrCreate({
+      where: {
+        id: order
+      }
+    });
     if (recom) {
+      await recom.update({
+        sid
+      });
       this.app.actvCache.set(RECOM_PREFIX + recom.id, recom)
+    } else {
+      throw new Error("failed to add recommend activity")
     }
     return recom
   }
 
   async updateRecom(id, sid) {
-    const recom = this.ctx.model.RecomAct.findById(id);
+    const recom = await this.ctx.model.RecomAct.findById(id);
     if (!recom) {
       return null
     }
@@ -93,18 +100,22 @@ class ActivityService extends Service {
     await recom.update({
       sid
     });
-    this.app.actvCache.set(RECOM_PREFIX + recom.id, recom)
+    this.app.actvCache.set(RECOM_PREFIX + recom.id, recom);
     return recom
   }
 
   async deleteRecom(id) {
-    const recom = this.ctx.model.RecomAct.findById(id);
+    const recom = await this.ctx.model.RecomAct.findById(id);
     if (!recom) {
       return null;
     }
     await recom.destroy();
-    this.app.actvCache.del(recom.id)
+    this.app.actvCache.del(recom.id);
     return recom
+  }
+
+  async countRecom() {
+    return await this.ctx.model.RecomAct.count();
   }
 
 }

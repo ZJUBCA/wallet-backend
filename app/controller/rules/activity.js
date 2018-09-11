@@ -12,7 +12,8 @@ exports.ACTV_ADD_RULE = {
   title: {type: 'string'},
   sponsor: {type: 'string'},
   abstract: {type: 'string'},
-  url: {type: 'string'}
+  url: {type: 'string'},
+  order: {type: 'integer', required: false}
 };
 
 exports.ACTV_UPDATE_RULE = {

@@ -54,15 +54,18 @@ class ActivityController extends Controller {
       throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message))
     }
 
+
     const actv = await service.activity.add(body.pic, body.title, body.sponsor, body.abstract, body.url);
     if (!actv) {
       throw new Error('add activity failed')
-    } else {
-      ctx.body = {
-        code: 0,
-        data: {
-          actv
-        }
+    }
+    if (body.order !== undefined) {
+      await service.activity.addRecom(actv.id, body.order);
+    }
+    ctx.body = {
+      code: 0,
+      data: {
+        actv
       }
     }
   }
