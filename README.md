@@ -40,36 +40,22 @@ $ npx sequelize db:migrate
 - 非0 失败，需提供额外的`msg`字段以显示错误信息。
 
 ### 账户注册与公私钥生成
-**1. http://faucet.cryptokylin.io/create_account?{accout\_name} 注册账户**
+**xxxx/signup 注册账户**
+Url请咨询管理员。
 
-注意：使用该API将返回两组密钥对，一对是active权限，一对是owner权限。**在注册完后需要利用owner权限的私钥重置active权限的公约。该操作可在前端直接调用eos.js sdk完成**
+body参数:
+- account: 注册的账户名，12位(a-z,1-5)
+- pubKey: 公钥
+- signature: 利用私钥对账户名的签名
+- debug: 是否debug模式，可选（debug模式下抵押和购买所花费的EOS不同）
 
-query参数：
-- account_name: 严格12位账户名，须前端提示用户(允许字符：a-z,1-5)
-
-响应：
-- msg: 成功或失败信息，例“succeed”
-- keys
-	- active_key: active权限所使用的key
-		- public
-		- private
-	- owner_key: owner权限所使用的key
-		- public
-		- private
-
-**2. http://faucet.cryptokylin.io/get_token?{account\_name} 获取免费测试网代币**
-
-注意：该API每次调用可获得100个EOS，每天10次封顶。**有时候会调用失败，须进行循环调用**。当新用户完成第一步的注册账户后，须成功调用该API 2次，获取200EOS，并在前端使用eos.js sdk进行抵押CPU 50EOS、NET资源 50EOS和购买RAM 100EOS的操作。
-
-query参数
-- account_name: 12位账户名
-
-响应：
-- msg: 成功或失败信息，例"succeed"
-
+该API会执行以下两个过程：
+1. 利用协会的账户signuphelper为调用者创建一个指定账户。
+2. 为新账户购买1MB的内存。
+3. 为新账户抵押的CPU带宽和网络带宽资源**各50EOS**。
 
 ## 资产管理
-TODO...
+该部分完全与EOS区块链交互。TODO...
 
 ## Dapp市场
 **1. GET `/dapps` 获取Dapp列表**
