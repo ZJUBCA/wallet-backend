@@ -38,10 +38,13 @@ $ npx sequelize db:migrate
 每个响应都会返回一个`code`字段，拥有以下值：
 - 0 成功
 - 非0 失败，需提供额外的`msg`字段以显示错误信息。
+## 新用户注册
+### 公私钥生成
+由前端使用[eosjs-ecc](https://github.com/EOSIO/eosjs-ecc)生成，例子可看[key-pair-generate](https://github.com/Blockchain-zju/wallet-develop-tutorial/tree/master/key-pair-generate)
 
-### 账户注册与公私钥生成
+### 账户注册
 **xxxx/signup 注册账户**
-Url请咨询管理员。
+Url请咨询管理员。该部分已由私有仓库实现。
 
 body参数:
 - account: 注册的账户名，12位(a-z,1-5)
