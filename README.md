@@ -43,7 +43,7 @@ $ npx sequelize db:migrate
 由前端使用[eosjs-ecc](https://github.com/EOSIO/eosjs-ecc)生成，例子可看[key-pair-generate](https://github.com/Blockchain-zju/wallet-develop-tutorial/tree/master/key-pair-generate)
 
 ### 账户注册
-**xxxx/signup 注册账户**
+**POST xxxx/signup 注册账户**
 Url请咨询管理员。该部分已由私有仓库实现。
 
 body参数:
@@ -56,6 +56,32 @@ body参数:
 1. 利用协会的账户signuphelper为调用者创建一个指定账户。
 2. 为新账户购买1MB的内存。
 3. 为新账户抵押的CPU带宽和网络带宽资源**各50EOS**。
+
+## 账户系统（该API专为后台管理设计）
+TODO...
+
+**1. POST `/login` 登录**
+
+body参数:
+- username
+- password
+
+响应：
+- code
+- msg
+- data
+    - token: 登录身份凭证
+    
+**2. PUT `/password` 修改密码**
+
+body参数:
+- username
+- oldPassword
+- newPassword
+
+响应：
+- code
+- msg
 
 ## 资产管理
 该部分完全与EOS区块链交互。TODO...
