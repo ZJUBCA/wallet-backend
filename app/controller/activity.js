@@ -6,6 +6,7 @@ const {decodeRuleErr} = require('../utils');
 
 class ActivityController extends Controller {
   async get() {
+    
     const {ctx, service} = this;
     try {
       ctx.validate(rules.ACTV_GET_RULE, ctx.params);
@@ -27,6 +28,7 @@ class ActivityController extends Controller {
   }
 
   async fetch() {
+    console.log("===========");
     const {ctx, service} = this;
     const [page, pageSize] = [parseInt(ctx.query.page), parseInt(ctx.query.pageSize)];
 
@@ -46,15 +48,16 @@ class ActivityController extends Controller {
   }
 
   async add() {
+    console.log("=======================");
     const {ctx, service} = this;
     const body = ctx.request.body;
     try {
-      ctx.validate(rules.ACTV_ADD_RULE, body);
+     // ctx.validate(rules.ACTV_ADD_RULE, body);
     } catch (e) {
       throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message))
     }
 
-
+ 
     const actv = await service.activity.add(body.pic, body.title, body.sponsor, body.abstract, body.url);
     if (!actv) {
       throw new Error('add activity failed')
