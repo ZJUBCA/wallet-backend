@@ -17,7 +17,7 @@ exports.ACTV_ADD_RULE = {
 };
 
 exports.ACTV_UPDATE_RULE = {
-  update: {type: 'object'}
+  update: {type: 'object',required:true}
 };
 
 exports.ACTV_DELETE_RULE = {

@@ -2,11 +2,11 @@
 
 const Controller = require('egg').Controller;
 const rules = require('./rules');
-const {decodeRuleErr} = require('../utils');
+const { decodeRuleErr } = require('../utils');
 
 class SharingController extends Controller {
   async get() {
-    const {ctx, service} = this;
+    const { ctx, service } = this;
     try {
       ctx.validate(rules.SHARING_GET_RULE, ctx.params);
     } catch (e) {
@@ -26,11 +26,11 @@ class SharingController extends Controller {
   }
 
   async fetch() {
-    const {ctx, service} = this;
+    const { ctx, service } = this;
     const [page, pageSize] = [parseInt(ctx.query.page), parseInt(ctx.query.pageSize)];
 
     try {
-      ctx.validate(rules.SHARING_FETCH_RULE, {page, pageSize});
+      ctx.validate(rules.SHARING_FETCH_RULE, { page, pageSize });
     } catch (e) {
       throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
     }
@@ -48,68 +48,99 @@ class SharingController extends Controller {
   }
 
   async add() {
-    const {ctx, service} = this;
+    const { ctx, service } = this;
     const body = ctx.request.body;
-    try {
-      ctx.validate(rules.SHARING_ADD_RULE, body);
-    } catch (e) {
-      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
-    }
-    const post = await service.sharing.add(body.pic, body.author, body.title, body.content)
-    if (!post) {
-      throw new Error('add post failed')
+    const token = this.ctx.request.header['authorization'];
+    if (await this.service.user.isAdmin(token)) {
+      try {
+        ctx.validate(rules.SHARING_ADD_RULE, body);
+      } catch (e) {
+        throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+      }
+      const post = await service.sharing.add(body.pic, body.author, body.title, body.content)
+      if (!post) {
+        throw new Error('add post failed')
+      } else {
+        ctx.body = {
+          code: 0,
+          data: {
+            post
+          }
+        }
+      }
     } else {
-      ctx.body = {
-        code: 0,
+      this.ctx.body = {
+        code: 1,
         data: {
-          post
+          message: "unauthorized"
         }
       }
     }
   }
 
   async update() {
-    const {ctx, service} = this;
-    const body = ctx.request.body;
-    try {
-      ctx.validate(rules.SHARING_UPDATE_RULE, body);
-    } catch (e) {
-      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
-    }
-    const id = parseInt(ctx.params.id);
-    if (isNaN(id)) {
-      throw new Error('id should be integer')
-    }
-    const post = await service.sharing.update(id, body.update);
-    if (!post) {
-      throw new Error('update failed')
+    const { ctx, service } = this;
+    const token = this.ctx.request.header['authorization'];
+    if (await this.service.user.isAdmin(token)) {
+      const body = ctx.request.body;
+      try {
+        ctx.validate(rules.SHARING_UPDATE_RULE, body);
+      } catch (e) {
+        throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+      }
+      const id = parseInt(ctx.params.id);
+      if (isNaN(id)) {
+        throw new Error('id should be integer')
+      }
+      const post = await service.sharing.update(id, body.update);
+      if (!post) {
+        throw new Error('update failed')
+      } else {
+        ctx.body = {
+          code: 0,
+          data: {
+            post
+          }
+        }
+      }
     } else {
-      ctx.body = {
-        code: 0,
+      this.ctx.body = {
+        code: 1,
         data: {
-          post
+          message: "unauthorized"
         }
       }
     }
   }
 
   async delete() {
-    const {ctx, service} = this;
-    try {
-      ctx.validate(rules.SHARING_DELETE_RULE, ctx.params);
-    } catch (e) {
-      throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
-    }
+    const { ctx, service } = this;
+    const token = this.ctx.request.header['authorization'];
+    if (await this.service.user.isAdmin(token)) {
+      try {
+        ctx.validate(rules.SHARING_DELETE_RULE, ctx.params);
+      } catch (e) {
+        throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message));
+      }
 
-    const post = await service.sharing.delete(ctx.params.id);
-    if (!post) {
-      throw new Error('delete failed')
+      const post = await service.sharing.delete(ctx.params.id);
+      if (!post) {
+        throw new Error('delete failed')
+      } else {
+        ctx.body = {
+          code: 0
+        }
+      }
     } else {
-      ctx.body = {
-        code: 0
+      this.ctx.body = {
+        code: 1,
+        data: {
+          message: "unauthorized"
+        }
       }
     }
   }
+
 }
 
 module.exports = SharingController;
