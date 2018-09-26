@@ -215,7 +215,7 @@ body参数：
 		- pic: 活动图片
 		- title: 活动title
 		- url: 活动url
-		- order: 优先级
+		- weight: 权重
 		- 
 **2. GET `/activities` 获取活动列表**
 
@@ -279,6 +279,7 @@ body参数:
 body参数：
 - id
 - sid: 活动id
+- weight: 权重
 
 响应：
 - code
@@ -287,6 +288,7 @@ body参数：
 
 **8. DELETE `/recommend/:id` 删除推荐活动**
 
+**9. DELETE `/recommend/id=&id=&id=`  批量删除推荐**
 响应:
 - code
 
