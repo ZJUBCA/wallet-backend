@@ -64,4 +64,4 @@ class DappService extends Service {
   }
 }
 
-module.exports = DappService
+module.exports = DappService;

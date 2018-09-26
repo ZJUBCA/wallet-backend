@@ -84,7 +84,7 @@ class ActivityService extends Service {
       const actv = await this.get(sid);
       recom = {
         id: recom.id,
-        weight:recom.weight,
+        weight: recom.weight,
         actv
       }
     } else {
@@ -93,20 +93,17 @@ class ActivityService extends Service {
     return recom
   }
 
-  async updateRecom(id, sid, weight) {
+  async updateRecom(id, update) {
     let recom = await this.ctx.model.RecomAct.findById(id);
     if (!recom) {
       return null
     }
-    if (sid !== recom.sid) {
-      await recom.update({
-        sid,
-        weight
-      });
-      const actv = await this.get(sid);
+    if (update.sid !== recom.sid) {
+      await recom.update(update);
+      const actv = await this.get(update.sid);
       recom = {
         id: recom.id,
-        weight:recom.weight,
+        weight: recom.weight,
         actv
       }
     }

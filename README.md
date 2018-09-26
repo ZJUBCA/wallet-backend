@@ -211,12 +211,10 @@ body参数：
 响应：
 - code
 - data
-	- actvs: JSON数组
-		- pic: 活动图片
-		- title: 活动title
-		- url: 活动url
+	- recoms: JSON数组
+		- id
 		- weight: 权重
-		- 
+		- actv: 活动的json对象
 **2. GET `/activities` 获取活动列表**
 
 query参数：
@@ -263,7 +261,7 @@ body参数：
 响应：
 - code
 
-**6. POST `/recommend` 将已有活动推上推荐列表**
+**6. POST `/recom` 将已有活动推上推荐列表**
 
 body参数:
 - sid: 活动id
@@ -274,12 +272,12 @@ body参数:
 - data
 	- recom: JSON
 
-**7. PUT `/recommend` 更新推荐活动**
+**7. PUT `/recommend/:id` 更新推荐活动**
 
 body参数：
-- id
-- sid: 活动id
-- weight: 权重
+- update
+    - sid: 活动id
+    - weight: 权重
 
 响应：
 - code
@@ -288,10 +286,13 @@ body参数：
 
 **8. DELETE `/recommend/:id` 删除推荐活动**
 
-**9. DELETE `/recommend/id=&id=&id=`  批量删除推荐**
-
-响应:
+响应：
 - code
+- data
+	- recom: JSON
+
+**9. DELETE `/recommend/id=&id=&id=`  批量删除推荐**
+暂不实现。
 
 ### Token兑换商城
 **1. GET `/goods` 获取商品列表**

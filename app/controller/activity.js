@@ -2,12 +2,12 @@
 
 const Controller = require('egg').Controller;
 const rules = require('./rules');
-const { decodeRuleErr } = require('../utils');
+const {decodeRuleErr} = require('../utils');
 
 class ActivityController extends Controller {
   async get() {
 
-    const { ctx, service } = this;
+    const {ctx, service} = this;
     try {
       ctx.validate(rules.ACTV_GET_RULE, ctx.params);
     } catch (e) {
@@ -28,11 +28,11 @@ class ActivityController extends Controller {
   }
 
   async fetch() {
-    const { ctx, service } = this;
+    const {ctx, service} = this;
     const [page, pageSize] = [parseInt(ctx.query.page), parseInt(ctx.query.pageSize)];
 
     try {
-      ctx.validate(rules.ACTV_FETCH_RULE, { page, pageSize });
+      ctx.validate(rules.ACTV_FETCH_RULE, {page, pageSize});
     } catch (e) {
       throw new Error(decodeRuleErr(e.errors[0].field, e.errors[0].message))
     }
@@ -47,7 +47,7 @@ class ActivityController extends Controller {
   }
 
   async add() {
-    const { ctx, service } = this;
+    const {ctx, service} = this;
     const body = ctx.request.body;
     const token = this.ctx.request.header['authorization'];
     if (await this.service.user.isAdmin(token)) {
@@ -84,7 +84,7 @@ class ActivityController extends Controller {
   }
 
   async update() {
-    const { ctx, service } = this;
+    const {ctx, service} = this;
     const body = ctx.request.body;
     const token = this.ctx.request.header['authorization'];
     if (await this.service.user.isAdmin(token)) {
@@ -122,7 +122,7 @@ class ActivityController extends Controller {
   }
 
   async delete() {
-    const { ctx, service } = this;
+    const {ctx, service} = this;
     const token = this.ctx.request.header['authorization'];
     if (await this.service.user.isAdmin(token)) {
       try {
@@ -201,8 +201,8 @@ class ActivityController extends Controller {
       throw new Error('id should be integer');
     }
 
-    const {sid, weight} = ctx.request.body;
-    const recom = await service.activity.updateRecom(id, sid, weight);
+    const {update} = ctx.request.body;
+    const recom = await service.activity.updateRecom(id, update);
     if (!recom) {
       throw new Error('update recommend activity failed');
     } else {
