@@ -289,6 +289,7 @@ body参数：
 **8. DELETE `/recommend/:id` 删除推荐活动**
 
 **9. DELETE `/recommend/id=&id=&id=`  批量删除推荐**
+
 响应:
 - code
 
