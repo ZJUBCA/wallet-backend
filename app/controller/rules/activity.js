@@ -23,3 +23,16 @@ exports.ACTV_UPDATE_RULE = {
 exports.ACTV_DELETE_RULE = {
   id: {type: 'id'},
 };
+
+exports.RECOM_ACTV_ADD_RULE = {
+  sid: {type: 'id'},
+  weight: {type: 'integer'}
+};
+
+exports.RECOM_ACTV_UPDATE_RULE = {
+  update: {type: 'object'}
+};
+
+exports.RECOM_ACTV_DELETE_RULE = {
+  id: {types: 'id'}
+};
