@@ -17,7 +17,7 @@ exports.ACTV_ADD_RULE = {
 };
 
 exports.ACTV_UPDATE_RULE = {
-  update: {type: 'object'}
+  update: {type: 'object', required: true}
 };
 
 exports.ACTV_DELETE_RULE = {
@@ -30,7 +30,7 @@ exports.RECOM_ACTV_ADD_RULE = {
 };
 
 exports.RECOM_ACTV_UPDATE_RULE = {
-  update: {type: 'object'}
+  update: {type: 'object', required: true}
 };
 
 exports.RECOM_ACTV_DELETE_RULE = {

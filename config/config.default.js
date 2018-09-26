@@ -15,6 +15,7 @@ module.exports = appInfo => {
   config.onerror = {
     json(err, ctx) {
       ctx.status = 200;
+      
       ctx.logger.error(err.errors);
       // json handler
       ctx.body = {
@@ -23,6 +24,15 @@ module.exports = appInfo => {
       };
     }
   };
+  config.security= {
+    csrf: {
+      ignoreJSON: true, // 默认为 false，当设置为 true 时，将会放过所有 content-type 为 `application/json` 的请求
+    },
+  }
 
   return config;
+};
+
+exports.jwt = {
+  secret: "123456"
 };

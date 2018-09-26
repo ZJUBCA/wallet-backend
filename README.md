@@ -54,8 +54,8 @@ body参数:
 
 该API会执行以下两个过程：
 1. 利用协会的账户signuphelper为调用者创建一个指定账户。
-2. 为新账户购买1MB的内存。
-3. 为新账户抵押的CPU带宽和网络带宽资源**各50EOS**。
+2. 为新账户购买250KB的内存。
+3. 为新账户抵押的CPU带宽和网络带宽资源**各20EOS**。
 
 ## 账户系统（该API专为后台管理设计）
 TODO...
@@ -215,7 +215,7 @@ body参数：
 		- pic: 活动图片
 		- title: 活动title
 		- url: 活动url
-		- order: 优先级
+		- weight: 权重
 		- 
 **2. GET `/activities` 获取活动列表**
 
@@ -279,6 +279,7 @@ body参数:
 body参数：
 - id
 - sid: 活动id
+- weight: 权重
 
 响应：
 - code
@@ -286,6 +287,8 @@ body参数：
 	- recom: JSON
 
 **8. DELETE `/recommend/:id` 删除推荐活动**
+
+**9. DELETE `/recommend/id=&id=&id=`  批量删除推荐**
 
 响应:
 - code

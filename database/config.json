@@ -1,21 +1,21 @@
 {
   "development": {
-    "username": "root",
-    "password": null,
+    "username": "zju",
+    "password": "123456",
     "database": "wallet-dev",
-    "host": "127.0.0.1",
+    "host": "111.231.75.113",
     "dialect": "mysql"
   },
   "test": {
     "username": "root",
-    "password": null,
+    "password": "745213",
     "database": "wallet-test",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },
   "production": {
     "username": "root",
-    "password": null,
+    "password": "745213",
     "database": "wallet",
     "host": "127.0.0.1",
     "dialect": "mysql"

@@ -8,7 +8,7 @@ class DappService extends Service {
   async getAll(page, pageSize, type = '', keywords = '') {
     const {Op} = this.app.Sequelize;
     const where = {}
-    where.title = {
+    where.name = {
       [Op.like]: `%${keywords}%`
     };
     if (type !== '') {

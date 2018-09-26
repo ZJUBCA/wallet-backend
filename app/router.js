@@ -32,7 +32,7 @@ module.exports = app => {
   });
 
   const {router, controller} = app;
-
+ 
   // Sharing route
   router.get('/sharing/:id', controller.sharing.get);
   router.get('/sharings', controller.sharing.fetch);
@@ -60,8 +60,14 @@ module.exports = app => {
 
   // Goods route
   router.get('/item/:id', controller.goods.get);
-  router.get('/goods', controller.goods.fetch);
+  router.get('/items', controller.goods.fetch);
   router.post('/item', controller.goods.add);
   router.put('/item/:id', controller.goods.update);
   router.delete('/item/:id', controller.goods.delete);
+
+  // Login 
+
+  router.post('/token', controller.user.getToken);
+  router.get("/success", "success.index");
+  router.get("/login", "login.index");
 };
