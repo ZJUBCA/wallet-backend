@@ -6,7 +6,6 @@ const { decodeRuleErr } = require('../utils');
 module.exports = app => {
   class UserController extends Controller {
     async getToken() {
-      console.log('---------');
       const { ctx, service } = this;
       try {
         //   ctx.validate(rules.SIGN_USERINFO_RULE, ctx.params);
@@ -28,7 +27,6 @@ module.exports = app => {
     }
     async changePassword(){
       const { ctx, service } = this;
-      console.log("==============");
       try {
         //   ctx.validate(rules.SIGN_USERINFO_RULE, ctx.params);
       } catch (e) {
