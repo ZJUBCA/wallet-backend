@@ -1,5 +1,4 @@
 const Service = require('egg').Service;
-const RECOM_PREFIX = '_RECOM'
 
 class ActivityService extends Service {
   async get(id) {
@@ -45,7 +44,7 @@ class ActivityService extends Service {
     return activity
   }
 
-  async getRecommand() {
+  async getRecom() {
     const recoms = await this.ctx.model.RecomAct.findAll();
     const Op = this.app.Sequelize.Op;
     const ids = recoms.map(item => item.sid);
@@ -74,33 +73,40 @@ class ActivityService extends Service {
     return activities.concat(remainActvs)
   }
 
-  async addRecom(sid, order) {
-    const recom = await this.ctx.model.RecomAct.findOrCreate({
+  async addRecom(sid, weight) {
+    let recom = await this.ctx.model.RecomAct.findOrCreate({
       where: {
-        id: order
+        sid,
+        weight
       }
     });
     if (recom) {
-      await recom.update({
-        sid
-      });
-      this.app.actvCache.set(RECOM_PREFIX + recom.id, recom)
+      const actv = await this.get(sid);
+      recom = {
+        id: recom.id,
+        weight: recom.weight,
+        actv
+      }
     } else {
       throw new Error("failed to add recommend activity")
     }
     return recom
   }
 
-  async updateRecom(id, sid) {
-    const recom = await this.ctx.model.RecomAct.findById(id);
+  async updateRecom(id, update) {
+    let recom = await this.ctx.model.RecomAct.findById(id);
     if (!recom) {
       return null
     }
-
-    await recom.update({
-      sid
-    });
-    this.app.actvCache.set(RECOM_PREFIX + recom.id, recom);
+    if (update.sid !== recom.sid) {
+      await recom.update(update);
+      const actv = await this.get(update.sid);
+      recom = {
+        id: recom.id,
+        weight: recom.weight,
+        actv
+      }
+    }
     return recom
   }
 
@@ -110,7 +116,6 @@ class ActivityService extends Service {
       return null;
     }
     await recom.destroy();
-    this.app.actvCache.del(recom.id);
     return recom
   }
 

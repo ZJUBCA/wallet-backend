@@ -46,6 +46,10 @@ module.exports = app => {
   router.post('/activity', controller.activity.add);
   router.put('/activity/:id', controller.activity.update);
   router.delete('/activity/:id', controller.activity.delete);
+  router.get('/recommends', controller.activity.getRecoms);
+  router.post('/recommend', controller.activity.addRecom);
+  router.put('/recommend/:id', controller.activity.updateRecom);
+  router.delete('/recommend/:id', controller.activity.deleteRecom);
 
   // DappStore route
   router.get('/dapp/:id', controller.dappStore.get);

@@ -17,10 +17,22 @@ exports.ACTV_ADD_RULE = {
 };
 
 exports.ACTV_UPDATE_RULE = {
-  update: {type: 'object',required:true}
+  update: {type: 'object', required: true}
 };
 
 exports.ACTV_DELETE_RULE = {
   id: {type: 'id'},
 };
 
+exports.RECOM_ACTV_ADD_RULE = {
+  sid: {type: 'id'},
+  weight: {type: 'integer'}
+};
+
+exports.RECOM_ACTV_UPDATE_RULE = {
+  update: {type: 'object', required: true}
+};
+
+exports.RECOM_ACTV_DELETE_RULE = {
+  id: {types: 'id'}
+};
