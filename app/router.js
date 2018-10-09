@@ -68,7 +68,7 @@ module.exports = app => {
 
   // Admin
 
-  router.post('/changePassword',controller.user.changePassword);
+  router.put('/password',controller.user.changePassword);
   // Login 
 
   router.post('/token', controller.user.getToken);
