@@ -76,7 +76,7 @@ body参数:
 
 body参数:
 - username
-- oldPassword
+- password
 - newPassword
 
 响应：
