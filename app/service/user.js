@@ -22,6 +22,16 @@ module.exports = app => {
         return false;
       }
     }
+    async changePassword(userName,password,newPassword){
+      const admin = await this.ctx.model.User.findOne({where:{userName:userName}});
+      console.log("123");
+      if(admin&&admin.dataValues.password===password){
+        console.log("456");
+         await admin.update({password:newPassword});
+         return true;
+      }
+      else return false;
+    }
   }
   return UserService;
 }

@@ -61,6 +61,10 @@ module.exports = app => {
   router.put('/item/:id', controller.goods.update);
   router.delete('/item/:id', controller.goods.delete);
 
+
+  // Admin
+
+  router.post('/changePassword',controller.user.changePassword);
   // Login 
 
   router.post('/token', controller.user.getToken);
